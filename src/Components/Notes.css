@@ -1,5 +1,5 @@
 .container {
-  background-image: url("N:\REACT.JS\notes_taking\src\assets\img12.jpg");
+  /* background-image: url("N:\REACT.JS\notes_taking\src\assets\img12.jpg"); */
   height: 100vh;
   width: 100%;
   /* background-repeat: no-repeat;
@@ -84,3 +84,5 @@ body.dark-mode {
   background-color: #212529;
   color: #f8f9fa;
 }
+
+

@@ -14,6 +14,9 @@ const Note = () => {
     return localStorage.getItem("darkMode") === "enabled";
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const notesPerPage = 5;
+
   useEffect(() => {
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
@@ -55,6 +58,12 @@ const Note = () => {
     setEditingIndex(null);
   };
 
+  const indexOfLastNote = currentPage * notesPerPage;
+  const indexOfFirstNote = indexOfLastNote - notesPerPage;
+  const currentNotes = notes.slice(indexOfFirstNote, indexOfLastNote);
+
+  const totalPages = Math.ceil(notes.length / notesPerPage);
+
   return (
     <div className=" container mt-4 ">
       <div className="text-end">
@@ -74,7 +83,7 @@ const Note = () => {
         <input
           type="text"
           className="form-control"
-          placeholder="Enter your note..."
+          placeholder="Enter your task..."
           value={newNote}
           onChange={(e) => setNewNote(e.target.value)}
         />
@@ -91,8 +100,8 @@ const Note = () => {
       </div>
 
       <ul className="list-group">
-        {notes.length > 0 ? (
-          notes.map((note, index) => (
+        {currentNotes.length > 0 ? (
+          currentNotes.map((note, index) => (
             <li
               key={index}
               className="list-group-item d-flex justify-content-between align-items-center"
@@ -120,6 +129,28 @@ const Note = () => {
           </li>
         )}
       </ul>
+
+      <div className="d-flex justify-content-center mt-3">
+        <button
+          className="btn btn-primary me-2"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="align-self-center">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="btn btn-primary ms-2"
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
